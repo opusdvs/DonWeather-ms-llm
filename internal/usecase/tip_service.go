@@ -14,6 +14,6 @@ func NewTipService(tipProvider domain.TipProvider) *TipService {
 	return &TipService{tipProvider: tipProvider}
 }
 
-func (s *TipService) GetTip(ctx context.Context, input domain.Prediction) (*domain.Tip, error) {
-	return s.tipProvider.GetTip(ctx, input)
+func (s *TipService) GetTip(ctx context.Context, prediction domain.Prediction) (*domain.Tip, error) {
+	return s.tipProvider.GetTip(ctx, prediction)
 }

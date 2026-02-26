@@ -24,6 +24,22 @@ func main() {
 	if ollamaModel == "" {
 		log.Fatal("OLLAMA_MODEL is not set")
 	}
+	yandexApiKey := os.Getenv("YANDEX_API_KEY")
+	if yandexApiKey == "" {
+		log.Fatal("YANDEX_API_KEY is not set")
+	}
+	yandexApiAgentUrl := os.Getenv("YANDEX_API_AGENT_URL")
+	if yandexApiAgentUrl == "" {
+		log.Fatal("YANDEX_API_AGENT_URL is not set")
+	}
+	yandexPromptId := os.Getenv("YANDEX_PROMPT_ID")
+	if yandexPromptId == "" {
+		log.Fatal("YANDEX_PROMPT_ID is not set")
+	}
+	yandexProjectId := os.Getenv("YANDEX_PROJECT_ID")
+	if yandexProjectId == "" {
+		log.Fatal("YANDEX_PROJECT_ID is not set")
+	}
 
 	tipProvider := provider.NewTipProvider(ollamaApiUrl, ollamaModel)
 	tipService := usecase.NewTipService(tipProvider)

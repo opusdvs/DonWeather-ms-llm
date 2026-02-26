@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/opusdvs/DonWeather-ms-ollama/internal/domain"
@@ -19,11 +20,13 @@ func NewTipHandler(tipService usecase.TipService) *TipHandler {
 func (th *TipHandler) GetTip(w http.ResponseWriter, r *http.Request) {
 	var prediction domain.Prediction
 	if err := json.NewDecoder(r.Body).Decode(&prediction); err != nil {
+		log.Println("failed to decode prediction: %w", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	tip, err := th.tipService.GetTip(r.Context(), prediction)
 	if err != nil {
+		log.Println("failed to get tip: %w", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

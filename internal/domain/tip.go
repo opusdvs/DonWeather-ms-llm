@@ -18,14 +18,16 @@ type Tip struct {
 }
 
 type Prediction struct {
-	ID              string  `json:"id"`
 	TempDelta       float64 `json:"temp_delta"`
 	RainProbability float64 `json:"rain_probability"`
 	WindProbability float64 `json:"wind_probability"`
 }
 
 type TipRequest struct {
-	Promt  string `json:"promt"`
-	Model  string `json:"model"`
-	Stream bool   `json:"stream"`
+	Promt Prompt `json:"promt"`
+	Input string `json:"input"`
+}
+
+type Prompt struct {
+	Id string `json:"id"`
 }
