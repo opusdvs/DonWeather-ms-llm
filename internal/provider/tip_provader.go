@@ -13,15 +13,19 @@ import (
 )
 
 type TipProvider struct {
-	apiURL string
-	model  string
-	client *http.Client
+	apiAgentUrl string
+	promptId    string
+	projectId   string
+	apiKey      string
+	client      *http.Client
 }
 
-func NewTipProvider(apiURL string, model string) *TipProvider {
+func NewTipProvider(apiAgentUrl string, promptId string, projectId string, apiKey string) *TipProvider {
 	return &TipProvider{
-		apiURL: apiURL,
-		model:  model,
+		apiAgentUrl: apiAgentUrl,
+		promptId:    promptId,
+		projectId:   projectId,
+		apiKey:      apiKey,
 		client: &http.Client{
 			Timeout: 10 * time.Second,
 		},
@@ -37,7 +41,7 @@ func (p *TipProvider) GetTip(ctx context.Context, prediction domain.Prediction) 
 		Проанализируй погодные показатели и выдай краткий практический совет по одежде и активности.
 		`, prediction.TempDelta, prediction.RainProbability, prediction.WindProbability)
 	data := domain.TipRequest{
-		Promt: domain.Prompt{Id: "fvt65721dad78sop0dhj"},
+		Promt: domain.Prompt{Id: p.promptId},
 		Input: inputString,
 	}
 	jsonData, err := json.Marshal(data)
@@ -45,11 +49,13 @@ func (p *TipProvider) GetTip(ctx context.Context, prediction domain.Prediction) 
 		log.Println("failed to marshal data: %w", err)
 		return nil, err
 	}
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s/generate", p.apiURL), bytes.NewBuffer(jsonData))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("%s", p.apiAgentUrl), bytes.NewBuffer(jsonData))
 	if err != nil {
 		log.Println("failed to create request: %w", err)
 		return nil, err
 	}
+	req.Header.Set("X-Project-Id", p.projectId)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", p.apiKey))
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := p.client.Do(req)
 	if err != nil {

@@ -41,7 +41,7 @@ func main() {
 		log.Fatal("YANDEX_PROJECT_ID is not set")
 	}
 
-	tipProvider := provider.NewTipProvider(ollamaApiUrl, ollamaModel)
+	tipProvider := provider.NewTipProvider(yandexApiAgentUrl, yandexPromptId, yandexProjectId, yandexApiKey)
 	tipService := usecase.NewTipService(tipProvider)
 	tipHandler := delivery.NewTipHandler(*tipService)
 
