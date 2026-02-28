@@ -16,14 +16,6 @@ import (
 func main() {
 	appCtx, appCancel := context.WithCancel(context.Background())
 	defer appCancel()
-	ollamaApiUrl := os.Getenv("OLLAMA_API_URL")
-	if ollamaApiUrl == "" {
-		log.Fatal("OLLAMA_API_URL is not set")
-	}
-	ollamaModel := os.Getenv("OLLAMA_MODEL")
-	if ollamaModel == "" {
-		log.Fatal("OLLAMA_MODEL is not set")
-	}
 	yandexApiKey := os.Getenv("YANDEX_API_KEY")
 	if yandexApiKey == "" {
 		log.Fatal("YANDEX_API_KEY is not set")

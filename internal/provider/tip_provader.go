@@ -41,8 +41,8 @@ func (p *TipProvider) GetTip(ctx context.Context, prediction domain.Prediction) 
 		Проанализируй погодные показатели и выдай краткий практический совет по одежде и активности.
 		`, prediction.TempDelta, prediction.RainProbability, prediction.WindProbability)
 	data := domain.TipRequest{
-		Promt: domain.Prompt{Id: p.promptId},
-		Input: inputString,
+		Prompt: domain.Prompt{Id: p.promptId},
+		Input:  inputString,
 	}
 	jsonData, err := json.Marshal(data)
 	if err != nil {
@@ -54,9 +54,10 @@ func (p *TipProvider) GetTip(ctx context.Context, prediction domain.Prediction) 
 		log.Println("failed to create request: %w", err)
 		return nil, err
 	}
-	req.Header.Set("X-Project-Id", p.projectId)
+	req.Header.Set("x-Project-Id", p.projectId)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", p.apiKey))
 	req.Header.Set("Content-Type", "application/json")
+	log.Println("reqData", string(jsonData))
 	resp, err := p.client.Do(req)
 	if err != nil {
 		log.Println("failed to do request: %w", err)
