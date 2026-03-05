@@ -37,9 +37,12 @@ func (p *TipProvider) GetTip(ctx context.Context, prediction domain.Prediction) 
 	inputString := fmt.Sprintf(`Температура изменится на %f градусов.
 		Вероятность дождя %f процентов.
 		Вероятность ветра %f процентов.
+		Вероятность снега %f процентов.
+		Текущая температура: %.1f градусов.
+		Важно: при минусовой температуре (ниже 0 °C) не рекомендуй брать зонт — осадки скорее в виде снега. Зонт рекомендуй только при плюсовой температуре и вероятности дождя.
 		Сформируй короткий совет на русском языке.
 		Проанализируй погодные показатели и выдай краткий практический совет по одежде и активности.
-		`, prediction.TempDelta, prediction.RainProbability, prediction.WindProbability)
+		`, prediction.TempDelta, prediction.RainProbability, prediction.WindProbability, prediction.SnowProbability, prediction.Temperature)
 	data := domain.TipRequest{
 		Prompt: domain.Prompt{Id: p.promptId},
 		Input:  inputString,

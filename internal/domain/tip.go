@@ -71,6 +71,9 @@ type Prediction struct {
 	TempDelta       float64 `json:"temp_delta"`
 	RainProbability float64 `json:"rain_probability"`
 	WindProbability float64 `json:"wind_probability"`
+	SnowProbability float64 `json:"snow_probability"`
+	// Temperature — текущая температура (°C); при отрицательной не рекомендуть зонт
+	Temperature float64 `json:"temperature,omitempty"`
 }
 
 type TipRequest struct {
